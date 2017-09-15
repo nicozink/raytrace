@@ -1,5 +1,5 @@
 /*
-Copyright © Nico Zink
+Copyright ï¿½ Nico Zink
 All rights reserved.
 */
 
@@ -136,6 +136,8 @@ public:
 	static JSON Parse(std::istream& input);
 
 	static JSON Parse(const std::string str);
+
+	static JSON ParseFile(const std::string path);
 
 private:
 

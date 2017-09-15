@@ -1,5 +1,5 @@
 /*
-Copyright © Nico Zink
+Copyright ï¿½ Nico Zink
 All rights reserved.
 */
 
@@ -10,6 +10,7 @@ All rights reserved.
 #include <json/json.h>
 
 // External Includes
+#include <fstream>
 #include <istream>
 #include <sstream>
 
@@ -31,4 +32,11 @@ JSON JSON::Parse(std::istream& input)
 JSON JSON::Parse(const std::string str)
 {
 	return Parse(std::istringstream(str));
+}
+
+JSON JSON::ParseFile(const std::string path)
+{
+	std::ifstream file(path.c_str());
+
+	return Parse(file);
 }
