@@ -4,6 +4,8 @@
 #include "primitive/ray.h"
 #include "resource/image.h"
 
+#include <string>
+
 class CubeMap
 {
 public:
