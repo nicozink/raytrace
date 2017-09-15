@@ -1,5 +1,5 @@
 /*
-Copyright © Nico Zink
+Copyright ï¿½ Nico Zink
 All rights reserved.
 */
 
@@ -111,7 +111,7 @@ JSON_Token JSON_Lexer::read_next()
 
 void JSON_Lexer::read(std::string str)
 {
-	for each (auto c in str)
+	for (auto c : str)
 	{
 		if (current_char == c)
 		{

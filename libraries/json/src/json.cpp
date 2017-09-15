@@ -31,7 +31,8 @@ JSON JSON::Parse(std::istream& input)
 
 JSON JSON::Parse(const std::string str)
 {
-	return Parse(std::istringstream(str));
+	std::istringstream stream(str);
+	return Parse(stream);
 }
 
 JSON JSON::ParseFile(const std::string path)

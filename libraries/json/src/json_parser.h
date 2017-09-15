@@ -1,12 +1,12 @@
 /*
-Copyright © Nico Zink
+Copyright ï¿½ Nico Zink
 All rights reserved.
 */
 
-#pragma once;
+#pragma once
 
 // Local includes
-#include "JSON_Lexer.h"
+#include "json_lexer.h"
 
 // Project insludes
 #include <json/json.h>
