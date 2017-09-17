@@ -1,22 +1,8 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.7)
 
 PROJECT(render)
 
 enable_testing()
-
-MACRO(FILELIST result directory pattern)
-	file(
-		GLOB
-		files
-		RELATIVE ${directory}
-		${directory}/${pattern})
-
-	SET(${result} "")
-
-	foreach(_file  IN ITEMS ${files})
-		LIST(APPEND ${result} ${_file})
-	endforeach()
-ENDMACRO()
 
 # Define enumerators to identify system properties. These
 # need to match with the definitions found in the file
@@ -69,11 +55,65 @@ else ()
 set(CMAKE_CXX_FLAGS "-DDEBUG -g -Wall -O0 -std=c++11")
 endif()
 
-file(
-	GLOB_RECURSE SRC_MAIN
-	LIST_DIRECTORIES false
-	${CMAKE_CURRENT_SOURCE_DIR}/src/*.c*
-	${CMAKE_CURRENT_SOURCE_DIR}/src/*.h*
+set(SRC_MAIN
+	${CMAKE_CURRENT_SOURCE_DIR}/src/math/quadratic.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/math/quadratic.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/math/vector.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/math/vector.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/math/vector3d.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/math/vector3d.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/primitive/color.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/primitive/color.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/primitive/color_accumulator.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/primitive/color_accumulator.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/primitive/intersection.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/primitive/intersection.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/primitive/ray.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/primitive/ray.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/render/batch_render.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/render/batch_render.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/render/render_job.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/render/render_job.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/resource/image.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/resource/image.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/resource/image_utilities.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/resource/image_utilities.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/world/material/flat_color.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/world/material/flat_color.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/world/material/material.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/world/material/material.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/world/material/surface.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/world/material/surface.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/world/material/texture.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/world/material/texture.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/world/object/cube_map.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/world/object/cube_map.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/world/object/light.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/world/object/light.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/world/object/light_type.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/world/object/light_type.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/world/object/plane.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/world/object/plane.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/world/object/point_light.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/world/object/point_light.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/world/object/sphere.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/world/object/sphere.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/world/object/sphere_light.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/world/object/sphere_light.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/world/object/traceable.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/world/object/traceable.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/world/object/triangle.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/world/object/triangle.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/world/camera.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/world/camera.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/world/scene.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/world/scene.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/world/scene_reader.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/world/scene_reader.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/main.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/render.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/render.h
 )
 
 set(_src_root_path "${CMAKE_CURRENT_SOURCE_DIR}/src")
@@ -91,6 +131,10 @@ configure_file (
 	"${CMAKE_CURRENT_BINARY_DIR}/src/system.h"
 )
 
+set(RESOURCES_PATH "${CMAKE_CURRENT_SOURCE_DIR}/resources/render/")
+set(WORKSPACE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/resources/examples/")
+set(OUTPUT_PATH "./")
+
 # Output the config to the config.json file.
 configure_file (
 	"${CMAKE_CURRENT_SOURCE_DIR}/resources/config.json.in"
@@ -104,37 +148,8 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-set(LINKS "")
-
-FILELIST(DEPENDENCIES ${CMAKE_CURRENT_SOURCE_DIR}/dependencies *)
-
-foreach(_dependency IN ITEMS ${DEPENDENCIES})
-	if(IS_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/${_dependency}/include)
-		include_directories(${CMAKE_CURRENT_SOURCE_DIR}/dependencies/${_dependency}/include)
-	endif()
-
-	if (MSVC)
-		if(IS_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/${_dependency}/lib/vs)
-			link_directories(${CMAKE_CURRENT_SOURCE_DIR}/dependencies/${_dependency}/lib/vs)
-
-			FILELIST(LINK_LIBS ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/${_dependency}/lib/vs *.lib)
-
-			foreach(_lib IN ITEMS ${LINK_LIBS})
-				LIST(APPEND LINKS ${_lib})
-			endforeach()
-		endif()
-	elseif (APPLE)
-		if(IS_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/${_dependency}/lib/darwin)
-			link_directories(${CMAKE_CURRENT_SOURCE_DIR}/dependencies/${_dependency}/lib/darwin)
-
-			FILELIST(LINK_LIBS ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/${_dependency}/lib/darwin *.a)
-
-			foreach(_lib IN ITEMS ${LINK_LIBS})
-				LIST(APPEND LINKS ${_lib})
-			endforeach()
-		endif()
-	endif()
-endforeach()
+add_subdirectory(dependencies/libpng)
+add_subdirectory(dependencies/libz)
 
 ADD_EXECUTABLE(
 	render
@@ -152,4 +167,9 @@ endmacro()
 add_subdirectory(libraries/json)
 add_subdirectory(libraries/unittest)
 
-TARGET_LINK_LIBRARIES(render json ${LINKS})
+TARGET_LINK_LIBRARIES(render json libpng libz)
+
+add_custom_command(TARGET render POST_BUILD
+	COMMAND ${CMAKE_COMMAND} -E copy
+	${CMAKE_CURRENT_BINARY_DIR}/config.json
+	$<TARGET_FILE_DIR:render>/config.json)

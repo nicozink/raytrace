@@ -1,3 +1,5 @@
 {
-	"workspace": "@RESOURCES_PATH@"
+	"resources": "@RESOURCES_PATH@",
+	"workspace": "@WORKSPACE_PATH@",
+	"output": "@OUTPUT_PATH@"
 }
