@@ -2,14 +2,7 @@
 
 // Local includes
 
-#include "material/flat_color.h"
-#include "material/texture.h"
-
-#include "object/sphere.h"
-#include "object/sphere_light.h"
-#include "object/triangle.h"
-#include "object/plane.h"
-#include "object/point_light.h"
+#include "scene_reader.h"
 
 // Project includes
 
@@ -18,42 +11,19 @@
 #include <primitive/color.h>
 #include <primitive/color_accumulator.h>
 
-#include <resource/image_utilities.h>
-
-// System includes
+// External includes
 
 #include <cmath>
+#include <filesystem>
+#include <json\json.h>
 #include <random>
 
 static std::uniform_real_distribution<double> unif(0.0, 1.0);
 static std::default_random_engine re;
 
-Scene::Scene()
+Scene::Scene(std::string path)
 {
-	Material* sphere_texture = new Texture(ImageUtilities::load_png("texture.png"), 0.8, 0.2, 25);
-	materials.push_back(sphere_texture);
-	
-	Material* sphere_shiny = new FlatColor(Color(0.9, 0.3, 0.4), 0.8, 0.3, 25);
-	materials.push_back(sphere_shiny);
-
-	Material* plane_matte = new FlatColor(Color(0.0, 1.0, 0.0), 0.9, 0.1, 10);
-	materials.push_back(plane_matte);
-	
-	Material* tri_matte = new FlatColor(Color(0.0, 0.0, 1.0), 0.9, 0.1, 10);
-	materials.push_back(tri_matte);
-
-	lights.push_back(new SphereLight(Vector3d(-6, 4, -10), 0.2, Color(1.0, 0.7, 0.6)));
-	lights.push_back(new PointLight(Vector3d(6, 8, -12), Color(0.6, 0.2, 0.3)));
-
-	traceables.push_back(new Sphere(Vector3d(-0.5, 0.0, 2.0), 0.4, sphere_texture));
-	traceables.push_back(new Sphere(Vector3d(0.5, 0.0, 2.0), 0.4, sphere_shiny));
-
-	traceables.push_back(new Triangle(Vector3d(-3.0, -1.0, 4.0), Vector3d(-3.0, 1.0, 4.0), Vector3d(3.0, 1.0, 4.0), tri_matte, false));
-	traceables.push_back(new Triangle(Vector3d(-3.0, -1.0, 4.0), Vector3d(3.0, 1.0, 4.0), Vector3d(3.0, -1.0, 4.0), tri_matte, false));
-
-	traceables.push_back(new Plane(Vector3d(0.0, -1.0, 0.0), Vector3d(0.0, 1.0, 0.0), plane_matte));
-	
-	sky_box = new CubeMap("sky_right.png", "sky_left.png", "sky_up.png", "sky_down.png", "sky_front.png", "sky_back.png");
+	SceneReader::ReadScene(path, *this);
 }
 
 Scene::~Scene()

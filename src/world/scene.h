@@ -13,7 +13,7 @@ class Scene
 {
 public:
 
-    Scene();
+    Scene(std::string path);
 
     ~Scene();
 
@@ -32,4 +32,6 @@ private:
     std::vector<Traceable*> traceables;
 	
 	CubeMap* sky_box;
+
+	friend class SceneReader;
 };

@@ -1,0 +1,97 @@
+{
+	"materials": [
+		{
+			"name": "sphere_texture",
+			"type": "texture",
+			"file": "texture.png",
+			"k_diffuse": 0.8,
+			"k_specular": 0.2,
+			"spec_shiny": 25
+		},
+		{
+			"name": "sphere_shiny",
+			"type": "flat_color",
+			"color": [ 0.9, 0.3, 0.4 ],
+			"k_diffuse": 0.8,
+			"k_specular": 0.3,
+			"spec_shiny": 25
+		},
+		{
+			"name": "plane_matte",
+			"type": "flat_color",
+			"color": [ 0.0, 1.0, 0.0 ],
+			"k_diffuse": 0.9,
+			"k_specular": 0.1,
+			"spec_shiny": 10
+		},
+		{
+			"name": "tri_matte",
+			"type": "flat_color",
+			"color": [ 0.0, 0.0, 1.0 ],
+			"k_diffuse": 0.9,
+			"k_specular": 0.1,
+			"spec_shiny": 10
+		}
+	],
+	"lights": [
+		{
+			"type": "sphere_light",
+			"position": [ -6, 4, -10 ],
+			"radius": 0.2,
+			"color": [ 1.0, 0.7, 0.6 ]
+		},
+		{
+			"type": "point_light",
+			"position": [ 6, 8, -12 ],
+			"color": [ 0.6, 0.2, 0.3 ]
+		}
+	],
+	"objects": [
+		{
+			"type": "sphere",
+			"position": [ -0.5, 0.0, 2.0 ],
+			"radius": 0.4,
+			"material": "sphere_texture"
+		},
+		{
+			"type": "sphere",
+			"position": [ 0.5, 0.0, 2.0 ],
+			"radius": 0.4,
+			"material": "sphere_shiny"
+		},
+		{
+			"type": "triangle",
+			"verts": [
+				[ -3.0, -1.0, 4.0 ],
+				[ -3.0, 1.0, 4.0 ],
+				[ 3.0, 1.0, 4.0 ]
+			],
+			"material": "tri_matte",
+			"single_sided": false
+		},
+		{
+			"type": "triangle",
+			"verts": [
+				[ -3.0, -1.0, 4.0 ],
+				[ 3.0, 1.0, 4.0 ],
+				[ 3.0, -1.0, 4.0 ]
+			],
+			"material": "tri_matte",
+			"single_sided": false
+		},
+		{
+			"type": "plane",
+			"position": [ 0.0, -1.0, 0.0 ],
+			"normal": [ 0.0, 1.0, 0.0 ],
+			"material": "plane_matte"
+		}
+	],
+	"skybox": {
+		"left": "sky_left.png",
+		"right": "sky_right.png",
+		"up": "sky_up.png",
+		"down": "sky_down.png",
+		"front": "sky_front.png",
+		"back": "sky_back.png"
+	}
+}

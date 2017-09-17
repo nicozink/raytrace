@@ -23,6 +23,9 @@ All rights reserved.
 int run(std::vector<std::string> args)
 {
 	JSON config = JSON::ParseFile(std::string("config.json"));
+	std::string resources_root = config["resources"].get<std::string>();
+	std::string workspace_root = config["workspace"].get<std::string>();
+	std::string output_root = config["output"].get<std::string>();
 
 	const int X_MAX = 800;
 	const int Y_MAX = 600;
@@ -31,12 +34,12 @@ int run(std::vector<std::string> args)
 	Image img(X_MAX, Y_MAX);
 
 	Camera camera(X_MAX, Y_MAX, SPP);
-	Scene scene;
+	Scene scene(workspace_root);
 	
 	BatchRender render(img, camera, scene);
 	render.run();
 	
-	ImageUtilities::save_png(img, "out.png");
+	ImageUtilities::save_png(img, output_root + "out.png");
 	
 	return 0;
 }
