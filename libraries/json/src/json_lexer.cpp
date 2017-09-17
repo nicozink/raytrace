@@ -141,6 +141,7 @@ void JSON_Lexer::read_number()
 		current_char == '7' ||
 		current_char == '8' ||
 		current_char == '9' ||
+		current_char == '-' ||
 		current_char == '.')
 	{
 		result += current_char;
