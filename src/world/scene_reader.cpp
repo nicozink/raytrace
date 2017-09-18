@@ -105,10 +105,10 @@ void SceneReader::ReadScene(std::string path, Scene& scene)
 			JSON_Value json_v1 = verts[0];
 			Vector3d v1(json_v1[0].get<double>(), json_v1[1].get<double>(), json_v1[2].get<double>());
 
-			JSON_Value json_v2 = verts[0];
+			JSON_Value json_v2 = verts[1];
 			Vector3d v2(json_v2[0].get<double>(), json_v2[1].get<double>(), json_v2[2].get<double>());
 
-			JSON_Value json_v3 = verts[0];
+			JSON_Value json_v3 = verts[2];
 			Vector3d v3(json_v3[0].get<double>(), json_v3[1].get<double>(), json_v3[2].get<double>());
 
 			bool single_sided = object["single_sided"].get<bool>();
