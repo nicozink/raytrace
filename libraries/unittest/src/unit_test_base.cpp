@@ -7,7 +7,7 @@ All rights reserved.
 #include "unit_test_exception.h"
 
 // Project Includes
-#include <unittest\test.h>
+#include <unittest/test.h>
 
 // System Includes
 #include <iostream>
@@ -88,7 +88,7 @@ UnitTestBase* UnitTestBase::throw_error()
 // stream including an error message. This assignment
 // counts as the notification that an error has occurred.
 // @param stream The stream operator.
-void UnitTestBase::operator=(UnitTestError& stream)
+void UnitTestBase::operator=(UnitTestError stream)
 {
 	test_result = UnitTestResult::TestFailed;
 

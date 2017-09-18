@@ -1,5 +1,5 @@
 /*
-Copyright © Nico Zink
+Copyright ï¿½ Nico Zink
 All rights reserved.
 */
 
@@ -191,7 +191,7 @@ public:
 	// stream including an error message. This assignment
 	// counts as the notification that an error has occurred.
 	// @param stream The stream operator.
-	void operator=(UnitTestError& stream);
+	void operator=(UnitTestError stream);
 
 private:
 
