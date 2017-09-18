@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.7)
+cmake_minimum_required(VERSION 3.5)
 
 PROJECT(render)
 
@@ -148,6 +148,9 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+find_package(Threads REQUIRED)
+
 add_subdirectory(dependencies/libpng)
 add_subdirectory(dependencies/libz)
 
@@ -167,7 +170,7 @@ endmacro()
 add_subdirectory(libraries/json)
 add_subdirectory(libraries/unittest)
 
-TARGET_LINK_LIBRARIES(render json libpng libz)
+TARGET_LINK_LIBRARIES(render json libpng libz Threads::Threads)
 
 add_custom_command(TARGET render POST_BUILD
 	COMMAND ${CMAKE_COMMAND} -E copy

@@ -14,7 +14,7 @@
 #include <resource/image_utilities.h>
 
 // Library includes
-#include <json\json.h>
+#include <json/json.h>
 
 void SceneReader::ReadScene(std::string path, Scene& scene)
 {

@@ -4,12 +4,30 @@ PROJECT(libz)
 
 add_library(libz INTERFACE)
 
-target_include_directories(libz
-	INTERFACE
-	${CMAKE_CURRENT_SOURCE_DIR}/include)
-
 if (MSVC)
-	target_link_libraries(libz INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/lib/vs/zlibstatic.lib)
+	target_include_directories(libz
+		INTERFACE
+		${CMAKE_CURRENT_SOURCE_DIR}/include)
+
+	target_link_libraries(libz
+		INTERFACE
+		${CMAKE_CURRENT_SOURCE_DIR}/lib/vs/zlibstatic.lib)
 elseif (APPLE)
-	target_link_libraries(libz INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/lib/darwin/libz.a)
+	target_include_directories(libz
+		INTERFACE
+		${CMAKE_CURRENT_SOURCE_DIR}/include)
+	
+	target_link_libraries(libz
+		INTERFACE
+		${CMAKE_CURRENT_SOURCE_DIR}/lib/darwin/libz.a)
+else()
+	find_library(ZLIB REQUIRED)
+
+	target_include_directories(libz
+		INTERFACE
+		${ZLIB_INCLUDE_DIR})
+	
+	target_link_libraries(libz
+		INTERFACE
+		${ZLIB_LIBRARY})
 endif()

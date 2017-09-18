@@ -14,8 +14,7 @@
 // External includes
 
 #include <cmath>
-#include <filesystem>
-#include <json\json.h>
+#include <json/json.h>
 #include <random>
 
 static std::uniform_real_distribution<double> unif(0.0, 1.0);
