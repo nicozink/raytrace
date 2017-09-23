@@ -6,14 +6,15 @@ All rights reserved.
 #include "render.h"
 
 // Local Includes
+#include "osl/osl_shader.h"
+#include "render/batch_render.h"
+#include "resource/image.h"
+#include "resource/image_utilities.h"
+#include "world/camera.h"
+#include "world/scene.h"
 
 // Project Includes
 #include <json/json.h>
-#include <render/batch_render.h>
-#include <resource/image.h>
-#include <resource/image_utilities.h>
-#include <world/camera.h>
-#include <world/scene.h>
 
 // External Includes
 #include <iostream>
@@ -26,6 +27,8 @@ int run(std::vector<std::string> args)
 	std::string resources_root = config["resources"].get<std::string>();
 	std::string workspace_root = config["workspace"].get<std::string>();
 	std::string output_root = config["output"].get<std::string>();
+
+	OSL_Shader shader = OSL_Shader::ParseFile(workspace_root + "test_shader.osl");
 
 	const int X_MAX = 800;
 	const int Y_MAX = 600;

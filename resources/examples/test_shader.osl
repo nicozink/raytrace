@@ -1,0 +1,6 @@
+shader test_shader(
+        color in = color(0.8, 0, 0),
+        output color out = 0)
+{
+	out = in;
+}

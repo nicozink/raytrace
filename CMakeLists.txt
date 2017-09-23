@@ -62,6 +62,14 @@ set(SRC_MAIN
 	${CMAKE_CURRENT_SOURCE_DIR}/src/math/vector.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/math/vector3d.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/math/vector3d.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/osl/osl_lexer.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/osl/osl_lexer.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/osl/osl_parser.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/osl/osl_parser.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/osl/osl_shader.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/osl/osl_shader.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/osl/osl_shader_type.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/osl/osl_token.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/primitive/color.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/primitive/color.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/primitive/color_accumulator.cpp
